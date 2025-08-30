@@ -3,6 +3,8 @@
 
 This framework will simplify the inplementation web task for a existing system which is need to host publicly. I'm currently working on it and has much more ideas to create a powerful web framework for C++ that can handle web task easily. Here is a quick doc for quick intro about the framework.
 
+Currently this framework is build for linux. But I will also build for windows soon.
+
 Current special Features:
 - File-system based routing
 - Built-in view engine that supports JSX like syntax on C++ files.
@@ -63,4 +65,6 @@ And this example is about a File-system based routing :
 }
 ```
 
-I already mentioned that this is an initial push of the framework. More updates are coming. Star the repository for updates and support.
+I already mentioned that this is an initial push of the framework. More updates are coming. Star the repository for updates and support. You can also suggest feature idea for this on discussion.
+
+Thank you so much...
