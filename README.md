@@ -1,4 +1,4 @@
-## CWeb++ 1.1 🇧🇩
+## Aerox 🇧🇩
 ### A C++ web framework with built-in view engine and file-system based routing.
 
 This framework will simplify the inplementation web task for a existing system which is need to host publicly. I'm currently working on it and has much more ideas to create a powerful web framework for C++ that can handle web task easily. Here is a quick doc for quick intro about the framework.
