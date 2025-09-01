@@ -7,10 +7,12 @@ Currently this framework is build for linux. But I will also build for windows s
 
 Current special Features:
 - File-system based routing
+- File-system based dynamic routing
+- Components feature to split views and use globally
 - Built-in view engine that supports JSX like syntax on C++ files.
 - API route can be created
-- Has Request and Response object
-
+- Has Request and Response object (including query, params, body objects)
+- Indicator to specify a function as a page or component using @page and @component.
 
 A simple code snippet for routes (ExpressJS like syntax) : 
 ```cpp
