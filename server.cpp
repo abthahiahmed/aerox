@@ -12,6 +12,8 @@ vector<string> renderFunctions;
 vector<string> renderFunctionCalls;
 vector<string> renderRoutes;
 
+vector<string> componentFunctions;
+
 string getFileContent(string path){
 	ifstream file(path);
 	
@@ -27,7 +29,7 @@ string getFileContent(string path){
 	return content;
 }
 
-string parseContent(string code){
+string parseContent(string code, bool isComponent = false){
 
 	string newCode = "";
 	
@@ -102,7 +104,7 @@ string parseContent(string code){
 					type += code[i];
 					i++;
 				}
-				if (type == "page"){
+				if (!isComponent && type == "page"){
 					newCode += "string";
 					
 					newCode += code[i];
@@ -124,14 +126,50 @@ string parseContent(string code){
 							i++;
 						}
 						if (code[i - 1] != ')') fnName.pop_back();
-						renderFunctions.emplace_back("string " + fnName + ";\n");
 						
-						renderFunctionCalls.emplace_back(fnNameExact);
-
+						if (!isComponent){
+							renderFunctions.emplace_back("string " + fnName + ";\n");
+							renderFunctionCalls.emplace_back(fnNameExact);
+						}else{
+							componentFunctions.emplace_back("string " + fnName + ";\n");
+						}
 					}
 					
-				}else{
-					cout<<"Error parsing"<<endl;
+				}
+				else if (isComponent && type == "component"){
+					newCode += "string";
+					
+					newCode += code[i];
+					
+					if (code[i] == ' '){
+						string fnName = "";
+						string fnNameExact = "";
+						i++;
+						bool isFoundName = false;
+						
+						while(code[i] != '{'){
+							fnName += code[i];
+							newCode += code[i];
+							if (code[i] != '(' && !isFoundName) {
+								fnNameExact += code[i];
+							}else{
+								isFoundName = true;
+							}
+							i++;
+						}
+						if (code[i - 1] != ')') fnName.pop_back();
+						
+						if (!isComponent){
+							renderFunctions.emplace_back("string " + fnName + ";\n");
+							renderFunctionCalls.emplace_back(fnNameExact);
+						}else{
+							componentFunctions.emplace_back("string " + fnName + ";\n");
+						}
+					}
+					
+				}
+				else{
+					cout<<"Error parsing please correct the indicator."<<endl;
 					exit(1);
 				}
 
@@ -153,7 +191,21 @@ void generateParsedCode(string filename, string content){
 	
 	ofstream file(filename);
 	
-	string header = "#include \"../src/include/pages.hpp\"\n\n" + content;
+	string header = "#include \"../../src/include/pages.hpp\"\n#include \"../../src/include/components.hpp\"\n" + content;
+	
+	if (!file.is_open()) return;
+	
+	file << header << endl;
+	
+	file.close();
+	
+}
+
+void generateParsedComponent(string filename, string content){
+	
+	ofstream file(filename);
+	
+	string header = "#include \"../../src/include/components.hpp\"\n\n" + content;
 	
 	if (!file.is_open()) return;
 	
@@ -172,7 +224,7 @@ void generatePages(){
 		"#include <functional>\n"
 		"#include \"response.hpp\"\n"
 		"#include \"request.hpp\"\n"
-		"using namespace std;\n";
+		"using namespace std;\n\n";
 	
 	for (auto f : renderFunctions){
 		pagesInclude += f + "\n";
@@ -187,10 +239,30 @@ void generatePages(){
 	pages.close();
 }
 
+void generateComponents(){
+	string compInclude = "#pragma once\n"
+		"#ifndef COMPONENTS_HPP\n"
+		"#define COMPONENTS_HPP\n"
+		"#include <iostream>\n"
+		"using namespace std;\n\n";
+	
+	for (auto f : componentFunctions){
+		compInclude += f + "\n";
+	}
+	
+	compInclude += "#endif\n";
+	
+	ofstream components("./src/include/components.hpp");
+	if (components.is_open()){
+		components << compInclude <<endl;
+	}
+	components.close();
+}
+
 void generateRenders(){
 	string renders = "#include \"pages.hpp\"\n"
+	
 	"static unordered_map<string, function<void(Request, Response)>> pages;\n"
-	"static vector<string> dynamicRoutes;\n\n"
 	"static void initRenders(){\n";
 	
 	for (int i = 0; i < renderFunctions.size(); i++){
@@ -232,22 +304,25 @@ int main(int argc, char **argv){
 	time_t timestamp; 
 	
 	filesystem::path pagesDir = "./pages";
+	filesystem::path componentsDir = "./components";
 	string targetBuildPath = "./build";
 	
 	
-	system("rm -rf ./build/*.cpp");
+	system("rm -rf ./build/pages/*.cpp");
+	system("rm -rf ./build/components/*.cpp");
 	
+	// Translate all pages...
 	for (auto& entry : filesystem::recursive_directory_iterator(pagesDir)){
 		if (filesystem::is_regular_file(entry.path())){
 			string cont = getFileContent(entry.path());
-			string code = parseContent(cont);
+			string code = parseContent(cont, false);
 			
 			// Declare a variable of type time_t
 			time(&timestamp);
 			
 			string filename = entry.path().filename().string();
 			
-			generateParsedCode(targetBuildPath + "/_" + to_string(timestamp) + "_" + filename, code);
+			generateParsedCode(targetBuildPath + "/pages" + "/_" + to_string(timestamp) + "_" + filename, code);
 			
 			string filePath = entry.path().string();
 			
@@ -257,21 +332,45 @@ int main(int argc, char **argv){
 			
 			renderRoutes.emplace_back(toRoute(filePath));
 			
-			cout<<"Translated " << entry.path().string() << " -> " << toRoute(filePath)<<endl;
+			cout<<"Translated page : " << entry.path().string() << " -> " << toRoute(filePath)<<endl;
  		}
 	}
 	
-	generatePages();
-	generateRenders();
+
 	
-	string compiler = "g++ main.cpp ./src/include/*.cpp ./build/*.cpp -lSDL2main -lSDL2 -lSDL2_net -o main";
+	
+
+	for (auto& entry : filesystem::recursive_directory_iterator(componentsDir)){
+		if (filesystem::is_regular_file(entry.path())){
+			string cont = getFileContent(entry.path());
+			string code = parseContent(cont, true);
+			
+			// Declare a variable of type time_t
+			time(&timestamp);
+
+			string filename = entry.path().filename().string();
+			
+			generateParsedComponent(targetBuildPath + "/components" + "/_" + to_string(timestamp) + "_" + filename, code);
+			
+			cout<<"Translated component : " << entry.path().string() <<endl;
+ 		}
+	}
+	
+	
+	generateRenders();
+	generatePages();
+	generateComponents();
+	
+	string compiler = "g++ main.cpp ./src/include/*.cpp ./build/components/*.cpp ./build/pages/*.cpp -lSDL2main -lSDL2 -lSDL2_net -o main";
 	
 	cout<<"Compiling..."<<endl;
 	system(compiler.c_str());
 	cout<<"Server is starting..."<<endl;
 	system("./main");
 	
-	system("rm -rf ./build/*.cpp");
+	system("rm -rf ./build/pages/*.cpp");
+	system("rm -rf ./build/components/*.cpp");
+
 	
 	return 0;
 }

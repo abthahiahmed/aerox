@@ -8,14 +8,14 @@ int main(int argc, char **argv)
 	
 	Server server = Server(8080);
 	
-	server.setStaticDir("./public");
 	
 	server.get("/services", [](Request req, Response res){
 		res.send("This is service page");
 	});
 	
-	server.post("/form-action", [](Request req, Response res){
-		res.send("This is service page");
+	server.post("/contact", [](Request req, Response res){
+		string message = "Your data is saved. Email : " + req.body["email"] + ", Name : " + req.body["name"];
+		res.send(message);
 	});
 	
 	cout<<"C++ web server started..."<<endl;

@@ -12,12 +12,16 @@ Server::Server(int port){
 	for (auto key: pages){
 		this->routes.emplace_back(key.first);
 	}
+	this->staticDir = "./public";
+
 }
 
 Server::~Server(){
 	SDLNet_TCP_Close(this->server);
 	SDLNet_Quit();
 }
+
+
 
 void Server::setStaticDir(string dir){
 	this->staticDir = dir;

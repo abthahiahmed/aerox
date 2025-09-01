@@ -10,6 +10,7 @@
 #include "response.hpp"
 #include "render.hpp"
 
+
 using namespace std;
 
 class Server{
@@ -19,6 +20,7 @@ private:
 	TCPsocket client;
 	
 	string staticDir;
+	string styleDir;
 	
 	using func = function<void(Request, Response)>;
 	unordered_map<string, func> getRequests;
@@ -32,6 +34,7 @@ public:
 	~Server();
 	void loadMediaTypes();
 	void setStaticDir(string dir);
+	void linkStyle(string style);
 	bool handleStaticFiles(Response res, string filename);
 	void get(string path, func fn);
 	void post(string path, func fn);
