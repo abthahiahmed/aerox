@@ -8,6 +8,10 @@ Server::Server(int port){
 	this->server = SDLNet_TCP_Open(&ip);
 	this->loadMediaTypes();
 	initRenders();
+	
+	for (auto key: pages){
+		this->routes.emplace_back(key.first);
+	}
 }
 
 Server::~Server(){
@@ -55,7 +59,7 @@ void Server::listen(){
 			SDLNet_TCP_Recv(client, request, 1024);
 			
 
-			Request req = Request(request);
+			Request req = Request(request, this->routes);
 			Response res = Response(this->client);
 			
 			if (req.method == "GET"){

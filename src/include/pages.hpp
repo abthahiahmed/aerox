@@ -9,5 +9,7 @@
 using namespace std;
 string Index(Request req);
 
+string SinglePost(Request req);
+
 #endif
 

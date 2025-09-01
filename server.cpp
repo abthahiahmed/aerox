@@ -40,15 +40,24 @@ string parseContent(string code){
 		else if (code[i] == '<' && code[i + 1] == '>'){
 			string temp = "";
 			i += 2;
+			bool cppStarted = false; // To check if cursor inside of '{}'
 			while (i < code.length()){
 				
 				if (code[i] == '<' && code[i + 1] == '>') break;
 				
-				if (code[i] == '\"'){
+				if (!cppStarted && code[i] == '\"'){
 					temp += "\\\"";
 				}
-				else if (code[i] == '\\'){
+				else if (!cppStarted && code[i] == '\\'){
 					temp += "\\\\";
+				}
+				else if (code[i] == '{'){
+					cppStarted = true;
+					temp += code[i];
+				}
+				else if (code[i] == '}'){
+					cppStarted = false;
+					temp += code[i];
 				}
 				else{
 					temp += code[i];
@@ -115,10 +124,7 @@ string parseContent(string code){
 							i++;
 						}
 						if (code[i - 1] != ')') fnName.pop_back();
-//						cout<<"Page function : "<<fnName<<endl;
 						renderFunctions.emplace_back("string " + fnName + ";\n");
-						
-						
 						
 						renderFunctionCalls.emplace_back(fnNameExact);
 
@@ -184,6 +190,7 @@ void generatePages(){
 void generateRenders(){
 	string renders = "#include \"pages.hpp\"\n"
 	"static unordered_map<string, function<void(Request, Response)>> pages;\n"
+	"static vector<string> dynamicRoutes;\n\n"
 	"static void initRenders(){\n";
 	
 	for (int i = 0; i < renderFunctions.size(); i++){
@@ -228,6 +235,8 @@ int main(int argc, char **argv){
 	string targetBuildPath = "./build";
 	
 	
+	system("rm -rf ./build/*.cpp");
+	
 	for (auto& entry : filesystem::recursive_directory_iterator(pagesDir)){
 		if (filesystem::is_regular_file(entry.path())){
 			string cont = getFileContent(entry.path());
@@ -247,6 +256,7 @@ int main(int argc, char **argv){
 			}
 			
 			renderRoutes.emplace_back(toRoute(filePath));
+			
 			cout<<"Translated " << entry.path().string() << " -> " << toRoute(filePath)<<endl;
  		}
 	}
@@ -261,7 +271,7 @@ int main(int argc, char **argv){
 	cout<<"Server is starting..."<<endl;
 	system("./main");
 	
-	system("rm -r ./build/*.cpp");
+	system("rm -rf ./build/*.cpp");
 	
 	return 0;
 }

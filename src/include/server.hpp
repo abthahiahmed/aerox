@@ -25,6 +25,8 @@ private:
 	unordered_map<string, func> postRequests;
 	
 	unordered_map<string, string> mediaTypeByExt;
+	
+	vector<string> routes;
 public:
 	Server(int port);
 	~Server();

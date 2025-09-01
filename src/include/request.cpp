@@ -55,7 +55,81 @@ unordered_map<string, string> Request::parseBody(string body){
 	return result;
 }
 
-Request::Request(const char *request){
+//unordered_map<string, string> Request::parseParams(string body){
+//	unordered_map<string, string> result;
+//	
+//	vector<string> tokens;
+//	istringstream pss(body);
+//    string pair;
+//	string data;
+//	
+//	while(getline(pss, pair, '&')){
+//		string key;
+//		string value;
+//		istringstream dss(pair);
+//		getline(dss, key, '=');
+//		getline(dss, value, '=');
+//		result[key] = decodeData(value);
+////		cout<<"Body : "<<key<<" = "<<decodeData(value)<<endl;
+//	}
+//	
+//	return result;
+//}
+
+vector<string> splitString(string text, char delimiter){
+	vector<string> parts;
+	istringstream stream(text);
+	string part;
+	while(getline(stream, part, delimiter)){
+		parts.emplace_back(part);
+	}
+	return parts;
+}
+
+void Request::getPathAndParams(string& path, unordered_map<string, string>& params, vector<string> routes){
+	vector<string> urlParts = splitString(path, '/');
+	
+	vector<vector<string>> routesParts = {};
+	vector<string> filteredRoutes = {};
+	
+	// Route part filter by matching the size of parts
+	for (unsigned i = 0; i < routes.size(); i++){
+		
+		vector<string> routeParts = splitString(routes[i], '/');
+		
+		if (routeParts.size() == urlParts.size()){
+			routesParts.emplace_back(routeParts);
+			filteredRoutes.emplace_back(routes[i]);
+		}
+	}
+	
+	string _path = "";
+	
+	for (unsigned i = 0; i < routesParts.size(); i++){
+		bool prevMatch = false;
+		for (unsigned j = 1; j < routesParts[i].size(); j++){
+			
+			if (routesParts[i][j] == urlParts[j]){
+				prevMatch = true;
+			}
+			else if (prevMatch && routesParts[i][j][0] == '['){
+				string key = routesParts[i][j].substr(1, routesParts[i][j].length() - 2);
+				params[key] = urlParts[j];
+			}
+			else{
+				prevMatch = false;
+				break;
+			}
+		}
+		if (prevMatch) _path = filteredRoutes[i];
+	}
+	
+	if (_path != "") path = _path;
+	
+	return;
+}
+
+Request::Request(const char *request, vector<string>& routes){
 	vector<string> tokens;
 	string data = request;
 	
@@ -88,12 +162,10 @@ Request::Request(const char *request){
 	url.replace(0, path.length() + 1, "");
 	this->query = parseQuery(url);
 	
+	this->getPathAndParams(path, this->params, routes);
+	
 	// Parse Body
 	this->body = parseBody(line);
-	
-	
-	
-	
 	this->method = tokens[0];	
 	this->path = path;
 	this->protocol = tokens[2];
