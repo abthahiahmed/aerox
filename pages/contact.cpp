@@ -1,5 +1,7 @@
 
 @page Contact(Request req){
+    @title = "Contact Us";
+    @description = "Contact with us";
 
     return <>
 		{Header()}

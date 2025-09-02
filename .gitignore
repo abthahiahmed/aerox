@@ -6,6 +6,8 @@ WebServer.txt
 WebServer.project
 WebServer.mk
 /Debug
-/build
+/.aerox
 tailwindcss
+.clangd
+.vscode
 

@@ -367,9 +367,6 @@ int main(int argc, char **argv){
 	string targetBuildPath = "./.aerox";
 	
 	
-	system("rm -rf ./build/pages/*.cpp");
-	system("rm -rf ./build/components/*.cpp");
-	
 	cout<<"Aerox 1.1"<<endl;
 	
 	int id = 0;
@@ -420,16 +417,12 @@ int main(int argc, char **argv){
 	generateComponents();
 	generateMetadata();
 	
-	string compiler = "g++ main.cpp ./src/include/*.cpp ./.aerox/*/*.cpp -lSDL2main -lSDL2 -lSDL2_net -o main";
+	string compiler = "g++ main.cpp ./src/*/*.cpp ./.aerox/*/*.cpp -lSDL2main -lSDL2 -lSDL2_net -o main";
 	
 	cout<<"Compiling..."<<endl;
 	system(compiler.c_str());
 	cout<<"Server is starting..."<<endl;
 	system("./main");
-	
-	system("rm -rf ./build/pages/*.cpp");
-	system("rm -rf ./build/components/*.cpp");
-
 	
 	return 0;
 }
