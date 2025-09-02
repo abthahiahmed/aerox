@@ -55,6 +55,7 @@ And this example is about a File-system based routing :
     <>
 }
 ```
+
 ```cpp
 // pages/contact.cpp
 // This file will act as /contact route
@@ -63,6 +64,18 @@ And this example is about a File-system based routing :
     return <>
         <h1>Contact Us</h1>
         <p>Contact us for more information.</p>
+    <>
+}
+```
+### An example of Dynamic routes
+```cpp
+// pages/post/[slug].cpp
+// This file will act as /post/[slug] route
+@page Post(Request req){
+
+    return <>
+        <h1>This is a single post!</h1>
+        <p>And the post slug is : {req.params["slug"]}</p>
     <>
 }
 ```
