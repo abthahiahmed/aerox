@@ -14,6 +14,29 @@ Current special Features:
 - Has Request and Response object (including query, params, body objects)
 - Indicator to specify a function as a page or component using @page and @component.
 
+On pages and components folder you need to use <><> literal to render your HTML content. Using '{}' you can pass C++ variables to your HTML content. 
+Note: To pass variables inside '{}', you need to cast those variable to C++ string.
+
+Example for '<><>';
+```cpp
+// Function start
+return <>
+    Your HTML content goes here...
+<>
+// Function end
+```
+
+Example for '{}'
+```cpp
+// Function start
+string name = "Abthahi Ahmed";
+return <>
+    <h1>Hello! My name is {name}</h1>
+<>
+// Function end
+```
+
+
 A simple code snippet for routes (ExpressJS like syntax) : 
 ```cpp
 #include <iostream>
@@ -49,6 +72,9 @@ And this example is about a File-system based routing :
 // This file will act as / route
 @page Index(Request req){
 
+    @title = "Home Page" // Set page title
+    @description = "Some text..." // Set meta description
+
     return <>
         <h1>Welcome to C++ Web Server</h1>
         <p>This is a alpha version of my C++ Web Server with a simple render Engine!</p>
@@ -61,6 +87,9 @@ And this example is about a File-system based routing :
 // This file will act as /contact route
 @page Contact(Request req){
 
+    @title = "Contact Page" // Set page title
+    @description = "Some text..." // Set meta description
+
     return <>
         <h1>Contact Us</h1>
         <p>Contact us for more information.</p>
@@ -72,6 +101,9 @@ And this example is about a File-system based routing :
 // pages/post/[slug].cpp
 // This file will act as /post/[slug] route
 @page Post(Request req){
+
+    @title = "Single Post" // Set page title
+    @description = "Some text..." // Set meta description
 
     return <>
         <h1>This is a single post!</h1>
