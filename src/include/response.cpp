@@ -2,7 +2,7 @@
 
 Response::Response(TCPsocket client){
 	this->response.append("HTTP/1.1 200 OK\n");
-	this->response.append("Server: C++\n");
+	this->response.append("Server: Aerox\n");
 	this->client = client;
 }
 

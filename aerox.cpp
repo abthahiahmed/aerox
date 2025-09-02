@@ -9,7 +9,7 @@
 
 using namespace std;
 
-struct MetaData {
+struct MetaData { // Structure for metadata
 	string title;
 	string description;
 };
@@ -364,7 +364,7 @@ int main(int argc, char **argv){
 	
 	filesystem::path pagesDir = "./pages";
 	filesystem::path componentsDir = "./components";
-	string targetBuildPath = "./build";
+	string targetBuildPath = "./.aerox";
 	
 	
 	system("rm -rf ./build/pages/*.cpp");
@@ -420,7 +420,7 @@ int main(int argc, char **argv){
 	generateComponents();
 	generateMetadata();
 	
-	string compiler = "g++ main.cpp ./src/include/*.cpp ./build/components/*.cpp ./build/pages/*.cpp -lSDL2main -lSDL2 -lSDL2_net -o main";
+	string compiler = "g++ main.cpp ./src/include/*.cpp ./.aerox/*/*.cpp -lSDL2main -lSDL2 -lSDL2_net -o main";
 	
 	cout<<"Compiling..."<<endl;
 	system(compiler.c_str());
