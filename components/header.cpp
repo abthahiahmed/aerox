@@ -1,3 +1,4 @@
+// Root component that holds HTML structure
 @component Header(){
   return <>
   <h3>This is header</h3>

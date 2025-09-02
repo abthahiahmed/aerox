@@ -7,8 +7,7 @@ int main(int argc, char **argv)
 {
 	
 	Server server = Server(8080);
-	
-	
+
 	server.get("/services", [](Request req, Response res){
 		res.send("This is service page");
 	});
