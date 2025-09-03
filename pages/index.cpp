@@ -1,5 +1,3 @@
-
-
 @page Index(Request req){
     @title = "Aerox | Home Page";
     @description = "Welcome to Aerox web framework";

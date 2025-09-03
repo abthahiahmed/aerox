@@ -5,15 +5,14 @@
     @title = "All Posts"; // Setting Title
     @description = "These are all my posts"; // Setting meta description
 
-
-
+    
     string content = "";
 
     for (int i = 0; i < posts.size(); i++){
         content += <>
             <h2>{to_string(i + 1)}. {posts[i].title}</h2>
             <p>Published on {posts[i].date}</p>
-            <a href="/post/{to_string(i + 1)}">View</a>
+            <a-link href="/post/{to_string(i + 1)}">View</a-link>
         <>;
     }
 

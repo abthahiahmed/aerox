@@ -17,6 +17,7 @@ public:
 	Response(TCPsocket client);
 	void send(string content);
 	void sendFile(string content, string contentType);
+	void sendJSON(string);
 	
 	
 };

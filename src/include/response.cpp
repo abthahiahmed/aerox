@@ -17,6 +17,16 @@ void Response::send(string content){
 		SDLNet_TCP_Send(this->client, response.c_str(), this->response.length());
 	}
 }
+void Response::sendJSON(string content){
+	this->response.append("Content-Type: application/json\n");
+	this->response.append("Content-Length: " + to_string(content.length())+ "");
+	this->response.append("\n\n");
+	this->response.append(content);
+	
+	if (this->client){
+		SDLNet_TCP_Send(this->client, response.c_str(), this->response.length());
+	}
+}
 
 void Response::sendFile(string content, string contentType){
 	this->response.append("Content-Type: " + contentType + "\n");

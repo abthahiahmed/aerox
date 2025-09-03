@@ -28,7 +28,14 @@ void Server::setStaticDir(string dir){
 }
 
 bool Server::handleStaticFiles(Response res, string filename){
-	ifstream file(this->staticDir + filename, ios::binary);
+	
+	string pathToFile = this->staticDir + filename;
+	
+	if (filename == "/_aerox/js/csr.js"){
+		pathToFile = "./src/js/csr.js";
+	}
+	
+	ifstream file(pathToFile, ios::binary);
 	
 	if (!file.is_open()) return false;
 	
