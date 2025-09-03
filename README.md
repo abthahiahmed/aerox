@@ -13,6 +13,7 @@ Current special Features:
 - API route can be created
 - Has Request and Response object (including query, params, body objects)
 - Indicator to specify a function as a page or component using @page and @component.
+- Support Client Side Routing using custom element <a-link>
 
 On pages and components folder you need to use <><> literal to render your HTML content. Using '{}' you can pass C++ variables to your HTML content. 
 Note: To pass variables inside '{}', you need to cast those variable to C++ string.
