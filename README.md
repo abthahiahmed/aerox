@@ -1,4 +1,4 @@
-## Aerox 1.1 🇧🇩
+## Aerox 1.2 🇧🇩
 ### A C++ web framework with built-in view engine and file-system based routing.
 
 This framework will simplify the implementation of web task for existing systems which is need to be host publicly. I'm currently working on it and has much more ideas to create a powerful web framework for C++ that can handle web task easily with easy syntax. Here is a quick documentation for quick intro about the framework. 
