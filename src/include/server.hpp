@@ -29,6 +29,11 @@ private:
 	unordered_map<string, string> mediaTypeByExt;
 	
 	vector<string> routes;
+	
+	unordered_map<string, string> systemFiles;
+	
+	void setBuiltinStaticFilesDirectory();
+	
 public:
 	Server(int port);
 	~Server();

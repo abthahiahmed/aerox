@@ -7,6 +7,7 @@ Server::Server(int port){
 	SDLNet_ResolveHost(&ip, NULL, port);
 	this->server = SDLNet_TCP_Open(&ip);
 	this->loadMediaTypes();
+	this->setBuiltinStaticFilesDirectory();
 	initRenders();
 	
 	for (auto key: pages){
@@ -31,8 +32,8 @@ bool Server::handleStaticFiles(Response res, string filename){
 	
 	string pathToFile = this->staticDir + filename;
 	
-	if (filename == "/_aerox/js/csr.js"){
-		pathToFile = "./src/js/csr.js";
+	if (systemFiles[filename] != ""){
+		pathToFile = systemFiles[filename];
 	}
 	
 	ifstream file(pathToFile, ios::binary);
@@ -194,4 +195,7 @@ void Server::loadMediaTypes(){
 		{".7z", "application/x-7z-compressed"}
 	};
 	
+}
+void Server::setBuiltinStaticFilesDirectory(){ // Internal non-c++ files (Javascript, CSS etc)
+	systemFiles["/_aerox/js/csr.js"] = "./src/js/csr.js";
 }

@@ -16,7 +16,7 @@ class Request{
 private:
 	unordered_map<string, string> parseQuery(string query);
 	unordered_map<string, string> parseBody(string body);
-
+	string decodeData(string data);
 	string url;
 	
 	void getPathAndParams(string& path, unordered_map<string, string>& params, vector<string> routes);
@@ -33,6 +33,8 @@ public:
 	string getDynamicRoute(vector<string>& routes);
 	
 	Request(const char *request, vector<string>& routes);
+	
+	
 	
 };
 #endif

@@ -1,17 +1,29 @@
 #include "request.hpp"
 
 
-string decodeData(string data){
-	unsigned i = 0;
-	
-	while (i < data.length()){
-		if (data[i] == '+'){
-			data[i] = ' ';
-		}
-		i++;
-	}
-	return data;
+string Request::decodeData(string data){
+	string ret;
+    char ch;
+    unsigned i, ii, len = data.length();
+
+    for (i = 0; i < len; i++) {
+        if (data[i] != '%') {
+            if (data[i] == '+')
+                ret += ' ';
+            else
+                ret += data[i];
+        }
+        else {
+            sscanf(data.substr(i + 1, 2).c_str(), "%x", &ii);
+            ch = static_cast<char>(ii);
+            ret += ch;
+            i = i + 2;
+        }
+    }
+    return ret;
 }
+
+
 
 unordered_map<string, string> Request::parseQuery(string query){
 	unordered_map<string, string> result;
@@ -55,26 +67,6 @@ unordered_map<string, string> Request::parseBody(string body){
 	return result;
 }
 
-//unordered_map<string, string> Request::parseParams(string body){
-//	unordered_map<string, string> result;
-//	
-//	vector<string> tokens;
-//	istringstream pss(body);
-//    string pair;
-//	string data;
-//	
-//	while(getline(pss, pair, '&')){
-//		string key;
-//		string value;
-//		istringstream dss(pair);
-//		getline(dss, key, '=');
-//		getline(dss, value, '=');
-//		result[key] = decodeData(value);
-////		cout<<"Body : "<<key<<" = "<<decodeData(value)<<endl;
-//	}
-//	
-//	return result;
-//}
 
 vector<string> splitString(string text, char delimiter){
 	vector<string> parts;
