@@ -18,13 +18,5 @@ string SinglePost(Request req);
 
 string About(Request req);
 
-string Posts(Request req);
-
-string Contact(Request req);
-
-string SinglePost(Request req);
-
-string About(Request req);
-
 #endif
 

@@ -10,5 +10,4 @@ WebServer.mk
 tailwindcss
 .clangd
 .vscode
-aerox
 node_modules

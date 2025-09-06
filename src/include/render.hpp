@@ -68,49 +68,5 @@ static void initRenders(){
 	__description__ = "";
 	};
 
-	pages["/posts"] = [](Request req, Response res){
-		string page = Posts(req);
-		string root = MainRoot(page);
-		if (req.query["navigate"] != "")
-			res.sendJSON(sendNavigationResponse(page));
-		else
-			res.send(root);
-	__title__ = "";
-	__description__ = "";
-	};
-
-	pages["/"] = [](Request req, Response res){
-		string page = Contact(req);
-		string root = MainRoot(page);
-		if (req.query["navigate"] != "")
-			res.sendJSON(sendNavigationResponse(page));
-		else
-			res.send(root);
-	__title__ = "";
-	__description__ = "";
-	};
-
-	pages["/contact"] = [](Request req, Response res){
-		string page = SinglePost(req);
-		string root = MainRoot(page);
-		if (req.query["navigate"] != "")
-			res.sendJSON(sendNavigationResponse(page));
-		else
-			res.send(root);
-	__title__ = "";
-	__description__ = "";
-	};
-
-	pages["/post/[id]"] = [](Request req, Response res){
-		string page = About(req);
-		string root = MainRoot(page);
-		if (req.query["navigate"] != "")
-			res.sendJSON(sendNavigationResponse(page));
-		else
-			res.send(root);
-	__title__ = "";
-	__description__ = "";
-	};
-
 }
 
