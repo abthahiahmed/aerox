@@ -1,5 +1,3 @@
-
-
 @page About(Request req){
     @title = "About Us";
     @description = "This is all about me";

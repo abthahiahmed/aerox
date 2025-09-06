@@ -9,12 +9,10 @@ Server::Server(int port){
 	this->loadMediaTypes();
 	this->setBuiltinStaticFilesDirectory();
 	initRenders();
-	
 	for (auto key: pages){
 		this->routes.emplace_back(key.first);
 	}
 	this->staticDir = "./public";
-
 }
 
 Server::~Server(){
@@ -198,4 +196,5 @@ void Server::loadMediaTypes(){
 }
 void Server::setBuiltinStaticFilesDirectory(){ // Internal non-c++ files (Javascript, CSS etc)
 	systemFiles["/_aerox/js/csr.js"] = "./src/js/csr.js";
+	systemFiles["/_aerox/css/styles.css"] = "./src/css/styles.css";
 }

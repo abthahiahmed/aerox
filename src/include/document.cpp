@@ -6,7 +6,7 @@ string Head(){
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
             "<title>" + __title__ + "</title>"
             "<meta name=\"description\" content=\"" + __description__ + "\"/>"
-            "<link rel=\"stylesheet\" href=\"/styles/css\"/>"
+            "<link rel=\"stylesheet\" href=\"/_aerox/css/styles.css\"/>"
 			"</head>";
 	
 	return head;

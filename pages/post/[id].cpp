@@ -11,7 +11,6 @@
 
 	return <>
 		{Header()}
-
 		<h1>{post.title}</h1>
 		<p>Published on {post.date}</p>
 		<p>{post.content}</p>

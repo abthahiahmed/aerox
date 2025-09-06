@@ -12,5 +12,11 @@ string Header();
 
 string Footer();
 
+string MainRoot(string children);
+
+string Header();
+
+string Footer();
+
 #endif
 

@@ -6,7 +6,7 @@
         <html lang="en">
         {Head()}
         <body>
-            <main id="root">
+            <main id="root" class="min-h-[94vh]">
                 {children}
             </main>
             {AScript()}

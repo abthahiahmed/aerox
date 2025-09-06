@@ -1,12 +1,16 @@
 // Root component that holds HTML structure
 @component Header(){
   return <>
-  <h3>This is header</h3>
-  <div>
-    <a-link href="/" style="background-color : black; color : white;">Home</a-link>
-    <a-link href="/about">About</a-link>
-    <a-link href="/contact">Contact</a-link>
-    <a-link href="/posts">Posts</a-link>
+  <div class="w-full p-3 bg-white shadow-lg sticky top-0">
+    <div class="flex justify-between">
+      <h3>This is header</h3>
+      <div class="flex items-center gap-3">
+        <a-link href="/" class="text-gray-500 hover:text-blue-500 font-bold">Home</a-link>
+        <a-link href="/about" class="text-gray-500 hover:text-blue-500 font-bold">About</a-link>
+        <a-link href="/contact" class="text-gray-500 hover:text-blue-500 font-bold">Contact</a-link>
+        <a-link href="/posts" class="text-gray-500 hover:text-blue-500 font-bold">Posts</a-link>
+      </div>
+    </div>
   </div>
   <>
 }

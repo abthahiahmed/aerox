@@ -7,7 +7,7 @@
 		{Header()}
         <h1>This is contact page</h1>
         <p>You can contact here</p>
-        
+        sds
         <form action="/contact" method="POST">
             <input type="email" name="email" placeholder="Enter your email" autocomplete="false"/><br/>
             <input type="text" name="name" placeholder="Enter your subject"/><br/>
