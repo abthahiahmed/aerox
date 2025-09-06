@@ -13,6 +13,17 @@ static string sendNavigationResponse(string page){
 	return data.dump();
 }
 static void initRenders(){
+	pages["/posts"] = [](Request req, Response res){
+		string page = Posts(req);
+		string root = MainRoot(page);
+		if (req.query["navigate"] != "")
+			res.sendJSON(sendNavigationResponse(page));
+		else
+			res.send(root);
+	__title__ = "";
+	__description__ = "";
+	};
+
 	pages["/"] = [](Request req, Response res){
 		string page = Index(req);
 		string root = MainRoot(page);
@@ -26,6 +37,17 @@ static void initRenders(){
 
 	pages["/contact"] = [](Request req, Response res){
 		string page = Contact(req);
+		string root = MainRoot(page);
+		if (req.query["navigate"] != "")
+			res.sendJSON(sendNavigationResponse(page));
+		else
+			res.send(root);
+	__title__ = "";
+	__description__ = "";
+	};
+
+	pages["/post/[id]"] = [](Request req, Response res){
+		string page = SinglePost(req);
 		string root = MainRoot(page);
 		if (req.query["navigate"] != "")
 			res.sendJSON(sendNavigationResponse(page));

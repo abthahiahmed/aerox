@@ -288,8 +288,6 @@ void Aerox::parseAndBuild(){
 	
 	int id = 0;
 	
-	system("rm -rf ./.aerox/*/*.cpp");
-	
 	// Parse and build all the pages...
 	for (auto& entry : filesystem::recursive_directory_iterator(pagesDir)){
 		if (filesystem::is_regular_file(entry.path())){

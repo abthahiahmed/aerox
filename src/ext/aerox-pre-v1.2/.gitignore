@@ -16,5 +16,3 @@ node_modules
 /aerox/Aerox.project
 /aerox/Aerox.txt
 /aerox/Aerox.mk
-/Releases
-build.sh
