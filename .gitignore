@@ -11,3 +11,8 @@ tailwindcss
 .clangd
 .vscode
 node_modules
+
+/aerox/Release
+/aerox/Aerox.project
+/aerox/Aerox.txt
+/aerox/Aerox.mk

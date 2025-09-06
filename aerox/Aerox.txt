@@ -1,1 +1,0 @@
-Release/main.cpp.o Release/threads.cpp.o Release/aerox.cpp.o Release/parser.cpp.o
